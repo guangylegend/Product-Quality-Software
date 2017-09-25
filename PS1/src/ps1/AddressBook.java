@@ -1,14 +1,16 @@
 package ps1;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject; 
+import org.json.JSONObject;
 
 /**
  * This is an implementation of a small address book. Each entry contains the following information:
@@ -43,7 +45,6 @@ public class AddressBook {
     EntryList = new ArrayList<Entry>();
   }
 
-  // TODO params requirements
   /**
    * Add an contact entry to the address book. The parameters contain Name, Postal Address, Phone
    * number, Email Address and small note. The Name is required, the others can be left null.
@@ -73,7 +74,7 @@ public class AddressBook {
     EntryList.add(e);
   }
 
-  // TODO should be optimized
+  // TODO should use id
   /**
    * Remove the entries which contain the key in any of their fields.
    *
@@ -82,14 +83,19 @@ public class AddressBook {
    * @see Entry
    */
   public void RemoveEntry(String key) {
-    List<Entry> res = new ArrayList<Entry>();
-    for (Entry e : EntryList) {
-      if (e.search(key))
-        res.remove(e);
+    ListIterator<Entry> iter = EntryList.listIterator();
+    
+    while(iter.hasNext()) {
+      Entry e = iter.next();
+      //System.out.println(e);
+      if (e.search(key)) {
+        System.out.println("asdasdrffasf");
+        EntryList.remove(iter);
+      }
+        
     }
   }
 
-  // TODO determine whether to return a copy or original item
   /**
    * Search the entries which contain the key in any of their fields, and return a list of them.
    *
@@ -102,7 +108,7 @@ public class AddressBook {
     List<Entry> res = new ArrayList<Entry>();
     for (Entry e : EntryList) {
       if (e.search(key))
-        res.add(e);
+        res.add(new Entry(e));
     }
     return res;
   }
@@ -144,17 +150,34 @@ public class AddressBook {
 
   }
 
-  /**
-   * Return a string representation of the entries in the address book.
-   * 
-   * @return a string representation of the address book
-   * 
-   * @see Entry
-   */
+  @Override
+  public boolean equals(Object obj) {
+    if (obj.getClass() != AddressBook.class)
+      return false;
+    if (this.hashCode() != ((AddressBook) obj).hashCode())
+      return false;
+    if (this.EntryList.size() != ((AddressBook) obj).EntryList.size())
+      return false;
+    for (int i = 0; i < this.EntryList.size(); i++)
+      if (!this.EntryList.get(i).equals(((AddressBook) obj).EntryList.get(i)))
+        return false;
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 1;
+    for (Entry e : EntryList) {
+      hash = hash * 5 + e.hashCode();
+    }
+    return hash;
+  }
+
+  @Override
   public String toString() {
     String res = "";
     for (Entry e : EntryList) {
-      res += e.toString();
+      res += e.toString() + "\n";
     }
     return res;
   }
