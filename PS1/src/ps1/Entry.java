@@ -46,9 +46,9 @@ public class Entry {
   }
 
   /**
-   * Create an entry and specify the name of contact.
+   * Create an entry as the deep copy of another entry.
    *
-   * @param Entry
+   * @param e the entry being copyed
    * 
    */
   public Entry(Entry e) {
@@ -77,7 +77,7 @@ public class Entry {
    * 
    * @param Phone the phone of the contact
    * 
-   * @throws IllegalArgument If the input Phone isn't a valid phone number
+   * @throws IllegalArgumentException If the input Phone isn't a valid phone number
    * 
    */
   public void setPhone(String Phone) throws IllegalArgumentException {
@@ -94,7 +94,7 @@ public class Entry {
    * 
    * @param Email the email address of the contact
    * 
-   * @throws IllegalArgument If the input Email isn't a valid email address
+   * @throws IllegalArgumentException If the input Email isn't a valid email address
    * 
    */
   public void setEmail(String Email) throws IllegalArgumentException {
