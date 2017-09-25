@@ -1,14 +1,16 @@
 package ps1;
 
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSyntaxException;
+
 
 /**
  * This is an implementation of a contact entry. It contains the following attributes:
  * <ul>
+ * <li>Id: int
  * <li>Name: String
  * <li>Postal Address: String
  * <li>Phone Number: String
@@ -16,7 +18,8 @@ import org.json.JSONObject;
  * <li>Note: String
  * </ul>
  * <p>
- * Attribute Name is required for an entry, while others are optional.
+ * Attribute Name is required for an entry, while others are optional. Id is auto incremental and is
+ * the discriminative tag for an Entry.
  * 
  * @author Guang Yang
  * @version 1.0
@@ -104,74 +107,88 @@ public class Entry {
       email = Email;
   }
 
+  /**
+   * Set the note for this entry.
+   * 
+   * @param Note the note of the contact
+   * 
+   */
   public void setNote(String Note) {
     note = Note;
   }
 
-  public JSONObject toJSON() throws JSONException {
-    JSONObject obj = new JSONObject();
-    obj.put("name", name);
-    obj.put("postal", postal);
-    obj.put("phone", phone);
-    obj.put("email", email);
-    obj.put("note", note);
+  // TODO javadoc
+  public JsonObject toJSON() {
+    JsonObject obj = new JsonObject();
+    obj.addProperty("name", name);
+    obj.addProperty("postal", postal);
+    obj.addProperty("phone", phone);
+    obj.addProperty("email", email);
+    obj.addProperty("note", note);
     return obj;
   }
 
-  public Entry toEntry(JSONObject obj) throws JSONException, IllegalArgumentException {
-    Object readobj = obj.get("name");
-    if (readobj == null || readobj.getClass() != String.class)
-      throw new JSONException("parse error");
-    String Name = (String) readobj;
+  // TODO javadoc
+  public static Entry toEntry(JsonObject obj) throws IllegalArgumentException, JsonSyntaxException {
+    JsonPrimitive readobj = obj.getAsJsonPrimitive("name");
+    if (readobj == null)
+      throw new JsonSyntaxException("parse error");
+    String Name = readobj.getAsString();
     Entry e = new Entry(Name);
-    readobj = obj.get("postal");
+    readobj = obj.getAsJsonPrimitive("postal");
     if (readobj != null) {
-      if (readobj.getClass() != String.class)
-        throw new JSONException("parse error");
+      if (!readobj.isString())
+        throw new JsonSyntaxException("parse error");
       else
-        e.setPostal((String) readobj);
+        e.setPostal(readobj.getAsString());
     }
-    readobj = obj.get("phone");
+    readobj = obj.getAsJsonPrimitive("phone");
     if (readobj != null) {
-      if (readobj.getClass() != String.class)
-        throw new JSONException("parse error");
+      if (!readobj.isString())
+        throw new JsonSyntaxException("parse error");
       else
-        e.setPhone((String) readobj);
+        e.setPhone(readobj.getAsString());
     }
-    readobj = obj.get("email");
+    readobj = obj.getAsJsonPrimitive("email");
     if (readobj != null) {
-      if (readobj.getClass() != String.class)
-        throw new JSONException("parse error");
+      if (!readobj.isString())
+        throw new JsonSyntaxException("parse error");
       else
-        e.setEmail((String) readobj);
+        e.setEmail(readobj.getAsString());
     }
-    readobj = obj.get("note");
+    readobj = obj.getAsJsonPrimitive("note");
     if (readobj != null) {
-      if (readobj.getClass() != String.class)
-        throw new JSONException("parse error");
+      if (!readobj.isString())
+        throw new JsonSyntaxException("parse error");
       else
-        e.setNote((String) readobj);
+        e.setNote(readobj.getAsString());
     }
     return e;
   }
 
+  // TODO javadoc
   public boolean search(String key) {
     if (name.contains(key))
       return true;
-    else if (postal.contains(key))
+    else if (postal != null && postal.contains(key))
       return true;
-    else if (phone.contains(key))
+    else if (phone != null && phone.contains(key))
       return true;
-    else if (email.contains(key))
+    else if (email != null && email.contains(key))
       return true;
-    else if (note.contains(key))
+    else if (note != null && note.contains(key))
       return true;
     return false;
   }
 
+  // TODO javadoc
+  public int getID() {
+    return id;
+  }
+
   @Override
   public boolean equals(Object obj) {
-    return obj.getClass() == Entry.class && this.hashCode() == ((Entry)obj).hashCode();
+    return obj.getClass() == Entry.class && this.hashCode() == ((Entry) obj).hashCode();
   }
 
 

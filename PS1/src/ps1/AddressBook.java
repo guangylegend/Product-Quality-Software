@@ -1,16 +1,18 @@
 package ps1;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 
 /**
  * This is an implementation of a small address book. Each entry contains the following information:
@@ -74,25 +76,19 @@ public class AddressBook {
     EntryList.add(e);
   }
 
-  // TODO should use id
   /**
-   * Remove the entries which contain the key in any of their fields.
-   *
-   * @param key the string used for removing
+   * Remove the entries with the ID.
+   * <p>
+   * If the ID doesn't exist, it will do nothing.
+   * 
+   * @param ID the id of the entry
    * 
    * @see Entry
    */
-  public void RemoveEntry(String key) {
-    ListIterator<Entry> iter = EntryList.listIterator();
-    
-    while(iter.hasNext()) {
-      Entry e = iter.next();
-      //System.out.println(e);
-      if (e.search(key)) {
-        System.out.println("asdasdrffasf");
-        EntryList.remove(iter);
-      }
-        
+  public void RemoveEntry(int ID) {
+    for (int i = 0; i < EntryList.size(); i++) {
+      if (EntryList.get(i).getID() == ID)
+        EntryList.remove(i);
     }
   }
 
@@ -119,17 +115,18 @@ public class AddressBook {
    * @param filename the file name used for writing
    * 
    * @throws IOException If there's something wrong with the writing to the file.
-   * @throws JSONException Fail to convert some entries to JSON.
+   * @throws JsonIOException Fail to convert some entries to JSON.
    */
-  public void SaveToFile(String filename) throws IOException, JSONException {
-    JSONObject obj = new JSONObject();
-    JSONArray entrylist = new JSONArray();
+  public void SaveToFile(String filename) throws IOException, JsonIOException {
+    JsonObject obj = new JsonObject();
+    JsonArray entrylist = new JsonArray();
     for (Entry e : EntryList) {
-      entrylist.put(e.toJSON());
+      entrylist.add(e.toJSON());
     }
-    obj.put("list", entrylist);
+    obj.add("list", entrylist);
     try (FileWriter file = new FileWriter(filename)) {
-      file.write(obj.toString());
+      Gson gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create();
+      gson.toJson(obj, file);
     }
   }
 
@@ -142,12 +139,20 @@ public class AddressBook {
    *
    * @param filename the file name used for reading
    * 
-   * @throws FileNotFoundException If file is null, or invalid filename
-   * @throws IOException If this file wasn't created by {@link SaveToFile} function or some other
-   *         reading issues
+   * @throws FileNotFoundException If this file is null, or invalid filename
+   * @throws IOException If this file can't close properly
+   * @throws JsonIOException If this file wasn't created by {@link SaveToFile} function.
    */
-  public void ReadFromFile(String filename) throws FileNotFoundException, IOException {
-
+  public void ReadFromFile(String filename)
+      throws FileNotFoundException, IOException, JsonSyntaxException, JsonIOException {
+    try (FileReader file = new FileReader(filename)) {
+      Gson gson = new GsonBuilder().create();
+      JsonObject obj = gson.fromJson(file, JsonObject.class);
+      JsonArray entrylist = obj.get("list").getAsJsonArray();
+      for (JsonElement j : entrylist) {
+        EntryList.add(Entry.toEntry(j.getAsJsonObject()));
+      }
+    }
   }
 
   @Override
