@@ -115,7 +115,7 @@ public class AddressBook {
    * @param filename the file name used for writing
    * 
    * @throws IOException If there's something wrong with the writing to the file.
-   * @throws JsonIOException Fail to convert some entries to JSON.
+   * @throws JsonIOException If fail to convert some entries to JSON.
    */
   public void SaveToFile(String filename) throws IOException, JsonIOException {
     JsonObject obj = new JsonObject();
@@ -124,10 +124,10 @@ public class AddressBook {
       entrylist.add(e.toJSON());
     }
     obj.add("list", entrylist);
-    try (FileWriter file = new FileWriter(filename)) {
-      Gson gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create();
-      gson.toJson(obj, file);
-    }
+    FileWriter file = new FileWriter(filename);
+    Gson gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create();
+    gson.toJson(obj, file);
+    file.close();
   }
 
   /**
@@ -142,17 +142,18 @@ public class AddressBook {
    * @throws FileNotFoundException If this file is null, or invalid filename
    * @throws IOException If this file can't close properly
    * @throws JsonIOException If this file wasn't created by {@link SaveToFile} function.
+   * @throws JsonSyntaxException If fail to convert some entries from JSON.
    */
   public void ReadFromFile(String filename)
       throws FileNotFoundException, IOException, JsonSyntaxException, JsonIOException {
-    try (FileReader file = new FileReader(filename)) {
-      Gson gson = new GsonBuilder().create();
-      JsonObject obj = gson.fromJson(file, JsonObject.class);
-      JsonArray entrylist = obj.get("list").getAsJsonArray();
-      for (JsonElement j : entrylist) {
-        EntryList.add(Entry.toEntry(j.getAsJsonObject()));
-      }
+    FileReader file = new FileReader(filename);
+    Gson gson = new GsonBuilder().create();
+    JsonObject obj = gson.fromJson(file, JsonObject.class);
+    JsonArray entrylist = obj.get("list").getAsJsonArray();
+    for (JsonElement j : entrylist) {
+      EntryList.add(Entry.toEntry(j.getAsJsonObject()));
     }
+    file.close();
   }
 
   @Override

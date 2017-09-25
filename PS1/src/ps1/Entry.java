@@ -117,7 +117,12 @@ public class Entry {
     note = Note;
   }
 
-  // TODO javadoc
+  /**
+   * Transform an entry into a Json object for writing.
+   * 
+   * @return JsonObject after transforming
+   * 
+   */
   public JsonObject toJSON() {
     JsonObject obj = new JsonObject();
     obj.addProperty("name", name);
@@ -128,7 +133,17 @@ public class Entry {
     return obj;
   }
 
-  // TODO javadoc
+  /**
+   * Parse a JsonObject into an Entry.
+   * 
+   * @param obj JsonObject for parsing
+   * @return Entry after parsing
+   * 
+   * @throws IllegalArgumentException If the syntax of parameters don't fit the requirement of an
+   *         entry.
+   * @throws JsonSyntaxException If the syntax of Json can't be parsed into an entry.
+   * 
+   */
   public static Entry toEntry(JsonObject obj) throws IllegalArgumentException, JsonSyntaxException {
     JsonPrimitive readobj = obj.getAsJsonPrimitive("name");
     if (readobj == null)
@@ -166,7 +181,13 @@ public class Entry {
     return e;
   }
 
-  // TODO javadoc
+  /**
+   * Search a key in any of the fields.
+   * 
+   * @param key the string for search
+   * @return whether this entry contains the key in any of the fields
+   * 
+   */
   public boolean search(String key) {
     if (name.contains(key))
       return true;
@@ -181,7 +202,12 @@ public class Entry {
     return false;
   }
 
-  // TODO javadoc
+  /**
+   * Return the discriminative specifier ID for an entry.
+   *
+   * @return the id of this entry
+   * 
+   */
   public int getID() {
     return id;
   }
