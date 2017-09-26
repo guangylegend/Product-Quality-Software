@@ -182,6 +182,11 @@ public class AddressBook {
     return hash;
   }
 
+  /**
+   * Returns the string representation of this AddressBook.
+   * <p>
+   * It will display each entry in order separating with a new line.
+   */
   @Override
   public String toString() {
     String res = "";

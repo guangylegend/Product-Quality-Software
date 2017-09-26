@@ -243,6 +243,20 @@ public class Entry {
     return hash;
   }
 
+  /**
+   * Returns the string representation of this entry.
+   * <p>
+   * It will has the following format:
+   * <ul>
+   * <li>name: xxx
+   * <li>postal: xxx
+   * <li>phone: xxx
+   * <li>email: xxx
+   * <li>note: xxx
+   * </ul>
+   * <p>
+   * If any of the fields is null, it will display "Not Set".
+   */
   @Override
   public String toString() {
     String s = "";
