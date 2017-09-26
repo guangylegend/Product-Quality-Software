@@ -158,23 +158,26 @@ public class AddressBook {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj.getClass() != AddressBook.class)
+    if (obj == null)
       return false;
-    if (this.hashCode() != ((AddressBook) obj).hashCode())
+    if (obj == this)
+      return true;
+    if (!(obj instanceof AddressBook))
       return false;
-    if (this.EntryList.size() != ((AddressBook) obj).EntryList.size())
+    AddressBook a = (AddressBook) obj;
+    if (EntryList.size() != a.EntryList.size())
       return false;
-    for (int i = 0; i < this.EntryList.size(); i++)
-      if (!this.EntryList.get(i).equals(((AddressBook) obj).EntryList.get(i)))
+    for (int i = 0; i < EntryList.size(); i++)
+      if (!EntryList.get(i).equals(a.EntryList.get(i)))
         return false;
     return true;
   }
 
   @Override
   public int hashCode() {
-    int hash = 1;
+    int hash = 17;
     for (Entry e : EntryList) {
-      hash = hash * 5 + e.hashCode();
+      hash = 31 * hash + e.hashCode();
     }
     return hash;
   }

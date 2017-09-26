@@ -214,13 +214,33 @@ public class Entry {
 
   @Override
   public boolean equals(Object obj) {
-    return obj.getClass() == Entry.class && this.hashCode() == ((Entry) obj).hashCode();
+    if (obj == null)
+      return false;
+    if (obj == this)
+      return true;
+    if (!(obj instanceof Entry))
+      return false;
+    Entry e = (Entry) obj;
+    if (name.equals(e.name) && (postal == null ? e.postal == null : postal.equals(e.postal))
+        && (phone == null ? e.phone == null : phone.equals(e.phone))
+        && (email == null ? e.email == null : email.equals(e.email))
+        && (note == null ? e.note == null : note.equals(e.note)))
+      return true;
+    else
+      return false;
   }
 
 
   @Override
   public int hashCode() {
-    return id;
+    int hash = 17;
+    hash = 31 * hash + id;
+    hash = 31 * hash + name.hashCode();
+    hash = 31 * hash + (postal == null ? 0 : postal.hashCode());
+    hash = 31 * hash + (phone == null ? 0 : phone.hashCode());
+    hash = 31 * hash + (email == null ? 0 : email.hashCode());
+    hash = 31 * hash + (note == null ? 0 : note.hashCode());
+    return hash;
   }
 
   @Override
