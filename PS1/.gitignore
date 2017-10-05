@@ -1,3 +1,2 @@
-# Compiled classes
-*.class
-
+/bin/
+/target/
