@@ -17,7 +17,9 @@ public class StopwatchInstance implements Stopwatch {
   private final String id;
   private Long startTime;
   private Long elapsedTime;
+  private Long lastLapTime;
   private boolean isRunning;
+  private boolean started;
   private final Object sync = new Object();
 
 
@@ -31,7 +33,9 @@ public class StopwatchInstance implements Stopwatch {
     id = watchId;
     startTime = 0L;
     elapsedTime = 0L;
+    lastLapTime = 0L;
     isRunning = false;
+    started = false;
   }
 
   /**
@@ -53,6 +57,7 @@ public class StopwatchInstance implements Stopwatch {
       }
       startTime = System.currentTimeMillis();
       isRunning = true;
+      started = true;
     }
   }
   
@@ -66,11 +71,8 @@ public class StopwatchInstance implements Stopwatch {
         throw new IllegalStateException("Stopwatch isn't running");
       }
       elapsedTime += System.currentTimeMillis() - startTime;
-      if (!lapTime.isEmpty()) {
-        lapTime.add(elapsedTime - lapTime.get(lapTime.size() - 1));
-      } else {
-        lapTime.add(elapsedTime);
-      }
+      lapTime.add(elapsedTime - lastLapTime);
+      lastLapTime = elapsedTime;
       startTime = System.currentTimeMillis();
     }
   }
@@ -97,7 +99,9 @@ public class StopwatchInstance implements Stopwatch {
     synchronized (sync) {
       startTime = 0L;
       elapsedTime = 0L;
+      lastLapTime = 0L;
       isRunning = false;
+      started = false;
       lapTime.clear();
     }
   }
@@ -109,12 +113,8 @@ public class StopwatchInstance implements Stopwatch {
   public List<Long> getLapTimes() {
     synchronized (sync) {
       List<Long> list = new ArrayList<Long>(lapTime);
-      if (!isRunning && elapsedTime > 0) {
-        if (!lapTime.isEmpty()) {
-          list.add(elapsedTime - lapTime.get(lapTime.size() - 1));
-        } else {
-          list.add(elapsedTime);
-        }
+      if (!isRunning && started) {
+        list.add(elapsedTime - lastLapTime);
       }
       return list;
     }
