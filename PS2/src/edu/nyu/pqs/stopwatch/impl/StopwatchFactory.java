@@ -25,8 +25,11 @@ public class StopwatchFactory {
    */
   public static Stopwatch getStopwatch(String id) {
     synchronized (sync) {
-      if (id == null || id.isEmpty() || watchList.containsKey(id)) {
-        throw new IllegalArgumentException();
+      if (id == null || id.isEmpty()) {
+        throw new IllegalArgumentException("Id is invalid");
+      }
+      if (watchList.containsKey(id)) {
+        throw new IllegalArgumentException("Id has already been used");
       }
       Stopwatch stopwatch = new StopwatchInstance(id);
       watchList.put(id, stopwatch);

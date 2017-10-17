@@ -49,7 +49,7 @@ public class StopwatchInstance implements Stopwatch {
   public void start() {
     synchronized (sync) {
       if (isRunning) {
-        throw new IllegalStateException();
+        throw new IllegalStateException("Stopwatch is already running");
       }
       startTime = System.currentTimeMillis();
       isRunning = true;
@@ -63,7 +63,7 @@ public class StopwatchInstance implements Stopwatch {
   public void lap() {
     synchronized (sync) {
       if (!isRunning) {
-        throw new IllegalStateException();
+        throw new IllegalStateException("Stopwatch isn't running");
       }
       elapsedTime += System.currentTimeMillis() - startTime;
       if (!lapTime.isEmpty()) {
@@ -82,7 +82,7 @@ public class StopwatchInstance implements Stopwatch {
   public void stop() {
     synchronized (sync) {
       if (!isRunning) {
-        throw new IllegalStateException();
+        throw new IllegalStateException("Stopwatch isn't running");
       }
       elapsedTime += System.currentTimeMillis() - startTime;
       isRunning = false;
