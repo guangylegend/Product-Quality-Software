@@ -5,6 +5,13 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import edu.nyu.pqs.stopwatch.api.Stopwatch;
 
+/**
+ * A thread-safe stopwatch that can be used for timing laps.  The stopwatch
+ * objects are created in the StopwatchFactory.  Different threads can
+ * share a single stopwatch object and safely call any of the stopwatch methods.
+ * 
+ * @author Guang Yang
+ */
 public class StopwatchInstance implements Stopwatch {
   private List<Long> lapTime;
   private final String id;
@@ -13,6 +20,12 @@ public class StopwatchInstance implements Stopwatch {
   private boolean isRunning;
   private final Object sync = new Object();
 
+
+  /**
+   * Create a new Stopwatch instance with a unique watchId.
+   * 
+   * @param watchId the specified id for this watch.
+   */
   public StopwatchInstance(String watchId) {
     lapTime = new CopyOnWriteArrayList<Long>();
     id = watchId;
@@ -21,11 +34,17 @@ public class StopwatchInstance implements Stopwatch {
     isRunning = false;
   }
 
+  /**
+   * {@inheritDoc} 
+   */
   @Override
   public String getId() {
     return id;
   }
 
+  /**
+   * {@inheritDoc} 
+   */
   @Override
   public void start() {
     synchronized (sync) {
@@ -36,7 +55,10 @@ public class StopwatchInstance implements Stopwatch {
       isRunning = true;
     }
   }
-
+  
+  /**
+   * {@inheritDoc} 
+   */
   @Override
   public void lap() {
     synchronized (sync) {
@@ -53,6 +75,9 @@ public class StopwatchInstance implements Stopwatch {
     }
   }
 
+  /**
+   * {@inheritDoc} 
+   */
   @Override
   public void stop() {
     synchronized (sync) {
@@ -64,6 +89,9 @@ public class StopwatchInstance implements Stopwatch {
     }
   }
 
+  /**
+   * {@inheritDoc} 
+   */
   @Override
   public void reset() {
     synchronized (sync) {
@@ -74,6 +102,9 @@ public class StopwatchInstance implements Stopwatch {
     }
   }
 
+  /**
+   * {@inheritDoc} 
+   */
   @Override
   public List<Long> getLapTimes() {
     synchronized (sync) {
@@ -90,17 +121,7 @@ public class StopwatchInstance implements Stopwatch {
   }
 
   @Override
-  public int hashCode() {
-    return 0;
-  }
-
-  @Override
   public String toString() {
-    return null;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    return false;
+    return "Time: " + elapsedTime + "milliseconds.";
   }
 }
