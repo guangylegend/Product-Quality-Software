@@ -1,2 +1,15 @@
 Please enter your code review in this file as plain text
 and make sure to include it when you commit your project.
+
+A. Functionality:
+	1. There seems no need to implement equals() and hashCode() function for Stopwatch
+	as it will always has unique ID.
+	2. In getStopwatch() function in StopwatchFactory, synchronized may be used before
+	accessing the stopwatchMap.
+	3. In getLapTimes() function in StopwatchImpl, lapTimes should be deep copied before
+	returned.
+	4. In stop() function in StopwatchImpl, it can't call lap() directly as this will log
+	the time in the lapTimes.
+	
+B. Javadoc related:
+	1. @inheritDoc should be used to generate javadoc from the implemented interface.
