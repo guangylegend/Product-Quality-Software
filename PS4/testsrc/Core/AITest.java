@@ -135,7 +135,6 @@ public class AITest {
     
     fillBoard(1);
     boardForTest[0][6] = 0;
-    System.out.println(board.toString());
     assertEquals(AI.getNextMove(boardForTest, 1), 6);
     
     fillBoard(1);

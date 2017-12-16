@@ -54,8 +54,8 @@ public class ButtonPanel extends JPanel implements ActionListener {
     this.add(winInfo);
   }
 
-  public void actionPerformed(ActionEvent e) {
-    if (e.getActionCommand().equals("start")) {
+  public void actionPerformed(ActionEvent event) {
+    if (event.getActionCommand().equals("start")) {
       Object[] options = {"Two Players", "VS COMP"};
       int option =
           JOptionPane.showOptionDialog(this.getParent(), "Please select mode:", "mode select",
@@ -82,13 +82,12 @@ public class ButtonPanel extends JPanel implements ActionListener {
     winInfo.setText("");
   }
   
-  public void updateTurn(int i){
-    turnInfo.setText("Turn: " + i);
-  }
-  
-  public void updatePlayer(int i){
+  public void update() {
+    int turn = main.getTurn();
+    int player = main.getPlayer();
+    turnInfo.setText("Turn: " + turn);
     if(mode == ConnectFourModel.TWIN){
-      if(i == 1){
+      if(player == 1){
         playerInfo.setForeground(Color.RED);
         playerInfo.setText("Player 1's Turn");
       }
@@ -98,7 +97,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
       }
     }
     if(mode == ConnectFourModel.COMP){
-      if(i == 1){
+      if(player == 1){
         playerInfo.setForeground(Color.RED);
         playerInfo.setText("Your Turn");
       }
@@ -109,7 +108,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
     }
   }
   
-  public void updateResult(int result){
+  public void showResult(int result){
     if (result == 0) {
       winInfo.setText("Draw!");
     } else {

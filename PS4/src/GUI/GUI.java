@@ -15,9 +15,9 @@ public class GUI extends JFrame {
   private BoardPanel boardPanel;
   private ButtonPanel buttonPanel;
 
-  public GUI(ConnectFourModel main, Board board) {
+  public GUI(ConnectFourModel main) {
     this.main = main;
-    this.board = board;
+    this.board = main.getBoard();
     boardPanel = new BoardPanel(main, board.getBoard());
     buttonPanel = new ButtonPanel(main);
     this.setLocation(200, 100);
@@ -38,17 +38,13 @@ public class GUI extends JFrame {
     this.pack();
   }
 
-  public void result(int result) {
-    buttonPanel.updateResult(result);
+  public void showResult(int result) {
+    buttonPanel.showResult(result);
   }
 
-  public void update(Board board) {
-    boardPanel.update(board.getBoard());
-  }
-  
-  public void updateTurn(int turn, int player){
-    buttonPanel.updateTurn(turn);
-    buttonPanel.updatePlayer(player);
+  public void update() {
+    boardPanel.update();
+    buttonPanel.update();
   }
   
 }

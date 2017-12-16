@@ -120,8 +120,8 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
     }
   }
 
-  public void update(int[][] board) {
-    this.board = board;
+  public void update() {
+    this.board = main.getBoard().getBoard();
     repaint();
   }
 }

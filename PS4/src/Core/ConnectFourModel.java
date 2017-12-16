@@ -28,13 +28,13 @@ public class ConnectFourModel {
   private static final ConnectFourModel INSTANCE = new ConnectFourModel();
 
   private ConnectFourModel() {
-    this.turn = 1;
-    this.currentPlayer = 1;
-    this.mode = ConnectFourModel.TWIN;
-    this.board = new Board();
-    this.ui = new GUI(this, this.board);
-    this.gameState = ConnectFourModel.READY;
-    this.winState = -1;
+    turn = 1;
+    currentPlayer = 1;
+    mode = ConnectFourModel.TWIN;
+    board = new Board();
+    ui = new GUI(this);
+    gameState = ConnectFourModel.READY;
+    winState = -1;
   }
 
   public static ConnectFourModel getInstance() {
@@ -46,8 +46,8 @@ public class ConnectFourModel {
    * 
    */
   public void start() {
-    this.ui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.ui.setVisible(true);
+    ui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    ui.setVisible(true);
   }
 
   /**
@@ -57,42 +57,42 @@ public class ConnectFourModel {
    * @param column the column current player wants to insert the mark.
    */
   public void step(int column) {
-    if (this.gameState != ConnectFourModel.START) {
+    if (gameState != ConnectFourModel.START) {
       return;
     }
     if (board.mark(column, currentPlayer)) {
-      ui.update(board);
+      ui.update();
       if (board.check(currentPlayer)) {
-        this.gameState = ConnectFourModel.RESULT;
-        this.winState = currentPlayer;
-        ui.result(currentPlayer);
+        gameState = ConnectFourModel.RESULT;
+        winState = currentPlayer;
+        ui.showResult(currentPlayer);
       } else {
         if (board.isFull()) {
-          this.gameState = ConnectFourModel.RESULT;
-          this.winState = 0;
-          ui.result(0);
+          gameState = ConnectFourModel.RESULT;
+          winState = 0;
+          ui.showResult(0);
         } else {
           currentPlayer = 3 - currentPlayer;
           turn++;
-          this.ui.updateTurn(turn, currentPlayer);
+          ui.update();
 
           if (mode == ConnectFourModel.COMP) {
             int col = AI.getNextMove(board.getBoard(), currentPlayer);
             board.mark(col, currentPlayer);
-            ui.update(board);
+            ui.update();
             if (board.check(currentPlayer)) {
-              this.gameState = ConnectFourModel.RESULT;
-              this.winState = currentPlayer;
-              ui.result(currentPlayer);
+              gameState = ConnectFourModel.RESULT;
+              winState = currentPlayer;
+              ui.showResult(currentPlayer);
             } else {
               if (board.isFull()) {
-                this.gameState = ConnectFourModel.RESULT;
-                this.winState = 0;
-                ui.result(0);
+                gameState = ConnectFourModel.RESULT;
+                winState = 0;
+                ui.showResult(0);
               } else {
                 currentPlayer = 3 - currentPlayer;
                 turn++;
-                this.ui.updateTurn(turn, currentPlayer);
+                ui.update();
               }
             }
 
@@ -107,13 +107,13 @@ public class ConnectFourModel {
    * 
    * @param mode the game mode
    */
-  public void modeSet(int mode) {
+  public void modeSet(int selectedMode) {
     if (this.gameState != ConnectFourModel.READY) {
       return;
     }
-    this.mode = mode;
-    this.gameState = ConnectFourModel.START;
-    this.ui.updateTurn(turn, currentPlayer);
+    mode = selectedMode;
+    gameState = ConnectFourModel.START;
+    ui.update();
   }
 
   /**
@@ -121,34 +121,50 @@ public class ConnectFourModel {
    * 
    */
   public void reset() {
-    this.turn = 1;
-    this.currentPlayer = 1;
-    this.board = new Board();
-    this.ui.update(board);
-    this.gameState = ConnectFourModel.READY;
+    turn = 1;
+    currentPlayer = 1;
+    board = new Board();
+    ui.update();
+    gameState = ConnectFourModel.READY;
   }
 
   /**
-   * Return current game state.
+   * @return current game state.
    * 
    */
   public int getState() {
-    return this.gameState;
+    return gameState;
+  }
+  
+  /**
+   * @return current turn count.
+   * 
+   */
+  public int getTurn() {
+    return turn;
   }
 
   /**
-   * Return current player id.
+   * @return current player id.
    * 
    */
   public int getPlayer() {
-    return this.currentPlayer;
+    return currentPlayer;
   }
 
   /**
-   * Return current winning state if the game has ended.
+   * @return current winning state if the game has ended, only used for test.
    * 
    */
   public int getWinState() {
-    return this.winState;
+    return winState;
+  }
+  
+  /**
+   * @return current game board.
+   * 
+   */
+  public Board getBoard() {
+    return board;
   }
 }
