@@ -1,8 +1,8 @@
 package Core;
 
 /**
- * An AI designed for the Connect Four game. It will give the next move based on the current
- * situation.
+ * An AI designed for the Connect Four game. It will give the next 
+ * move based on the current situation.
  * 
  * @author Guang Yang
  * @version 1.0
@@ -11,8 +11,8 @@ public class AI {
   private static int twoConnect = 5;
   private static int threeConnect = 25;
 
-  private static boolean validate(int[][] board, int i, int j, int player) {
-    if (i >= board.length || j < 0 || j >= board[0].length) {
+  private static boolean validate(Integer[][] board, int i, int j, int player) {
+    if (i < 0 || j < 0 || i >= board.length || j >= board[0].length) {
       return false;
     }
     if (board[i][j] == player) {
@@ -21,7 +21,7 @@ public class AI {
     return false;
   }
 
-  private static int calculate(int[][] board, int player) {
+  private static int calculate(Integer[][] board, int player) {
     int points = 0;
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[0].length; j++) {
@@ -73,14 +73,14 @@ public class AI {
     return points;
   }
 
-  /**
+  /** 
    * Return the next move the ai predicts according to current board.
    * 
    * @param board current board
    * @param player the player which ai plays
    * @return the column this ai selected
    */
-  public static int getNextMove(int[][] board, int player) {
+  public static int getNextMove(Integer[][] board, int player) {
     int[] points = new int[board[0].length];
     for (int j = 0; j < board[0].length; j++) {
       if (board[0][j] != 0) {

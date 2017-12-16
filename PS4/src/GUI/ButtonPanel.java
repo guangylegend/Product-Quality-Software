@@ -10,26 +10,18 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import Core.ConnectFourModel;
-
-/**
- * The button panel for the connect four GUI. It shows the information including turn count, current
- * player and game result. And there's also a button to start and restart the game.
- * 
- * @author Guang Yang
- * @version 1.0
- */
+import Core.ConnectFour;
 
 public class ButtonPanel extends JPanel implements ActionListener {
-  private ConnectFourModel main;
-  private JButton bStart;
+  private ConnectFour main;
+  private JButton bStart ;
   private JLabel turnInfo;
   private JLabel playerInfo;
   private JLabel winInfo;
   private int mode;
 
-  public ButtonPanel(ConnectFourModel main) {
-    this.mode = ConnectFourModel.TWIN;
+  public ButtonPanel(ConnectFour main) {
+    this.mode = ConnectFour.TWIN;
     this.main = main;
     this.setPreferredSize(new Dimension(200, 400));
     setBackground(Color.GRAY);
@@ -40,105 +32,95 @@ public class ButtonPanel extends JPanel implements ActionListener {
     bStart.setFocusPainted(false);
     bStart.setActionCommand("start");
     bStart.addActionListener(this);
-
+    
     turnInfo = new JLabel();
     turnInfo.setFont(new Font("Arial", Font.PLAIN, 20));
     turnInfo.setPreferredSize(new Dimension(180, 30));
     turnInfo.setText("");
-
+    
     playerInfo = new JLabel();
     playerInfo.setFont(new Font("Arial", Font.PLAIN, 20));
     playerInfo.setPreferredSize(new Dimension(180, 30));
     playerInfo.setText("");
-
+    
     winInfo = new JLabel();
     winInfo.setFont(new Font("Arial", Font.PLAIN, 20));
     winInfo.setPreferredSize(new Dimension(180, 120));
     winInfo.setText("");
-
+    
     this.add(bStart);
     this.add(turnInfo);
     this.add(playerInfo);
     this.add(winInfo);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void actionPerformed(ActionEvent event) {
-    if (event.getActionCommand().equals("start")) {
+  public void actionPerformed(ActionEvent e) {
+    if (e.getActionCommand().equals("start")) {
       Object[] options = {"Two Players", "VS COMP"};
       int option =
           JOptionPane.showOptionDialog(this.getParent(), "Please select mode:", "mode select",
               JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
       if (option == JOptionPane.YES_OPTION) {
         reset();
-        mode = ConnectFourModel.TWIN;
+        mode = ConnectFour.TWIN;
         main.reset();
-        main.modeSet(ConnectFourModel.TWIN);
+        main.modeSet(ConnectFour.TWIN); 
         bStart.setText("Restart");
       } else if (option == JOptionPane.NO_OPTION) {
         reset();
-        mode = ConnectFourModel.COMP;
+        mode = ConnectFour.COMP;
         main.reset();
-        main.modeSet(ConnectFourModel.COMP);
+        main.modeSet(ConnectFour.COMP);
         bStart.setText("Restart");
       }
     }
   }
-
-  /**
-   * Reset the information labels.
-   */
-  public void reset() {
+  
+  public void reset(){
     turnInfo.setText("");
     playerInfo.setText("");
     winInfo.setText("");
   }
-
-  /**
-   * Update the turn and player information.
-   */
-  public void update() {
-    int turn = main.getTurn();
-    int player = main.getPlayer();
-    turnInfo.setText("Turn: " + turn);
-    if (mode == ConnectFourModel.TWIN) {
-      if (player == 1) {
+  
+  public void updateTurn(int i){
+    turnInfo.setText("Turn: " + i);
+  }
+  
+  public void updatePlayer(int i){
+    if(mode == ConnectFour.TWIN){
+      if(i == 1){
         playerInfo.setForeground(Color.RED);
         playerInfo.setText("Player 1's Turn");
-      } else {
+      }
+      else{
         playerInfo.setForeground(Color.BLUE);
         playerInfo.setText("Player 2's Turn");
       }
     }
-    if (mode == ConnectFourModel.COMP) {
-      if (player == 1) {
+    if(mode == ConnectFour.COMP){
+      if(i == 1){
         playerInfo.setForeground(Color.RED);
         playerInfo.setText("Your Turn");
-      } else {
+      }
+      else{
         playerInfo.setForeground(Color.BLUE);
         playerInfo.setText("COMP is thinking...");
       }
     }
   }
-
-  /**
-   * Show the result information.
-   * 
-   * @param result the winning state of the game.
-   */
-  public void showResult(int result) {
+  
+  public void updateResult(int result){
     if (result == 0) {
       winInfo.setText("Draw!");
     } else {
-      if (mode == ConnectFourModel.TWIN) {
+      if(mode == ConnectFour.TWIN){
         winInfo.setText("Player " + result + " wins!");
-      } else {
-        if (result == 1) {
+      }
+      else{
+        if(result == 1){
           winInfo.setText("You Win!");
-        } else {
+        }
+        else{
           winInfo.setText("Try Again!");
         }
       }

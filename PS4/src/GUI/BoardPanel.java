@@ -7,19 +7,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
-import Core.ConnectFourModel;
+import Core.ConnectFour;
 
-/**
- * The board panel for the connect four GUI. It shows the game board, in which the player 1 has red
- * color while the player 2 has yellow color. Human player can choose one column to insert his disc,
- * the expected insert place will be marked as his color.
- * 
- * @author Guang Yang
- * @version 1.0
- */
 public class BoardPanel extends JPanel implements MouseMotionListener {
-  private ConnectFourModel main;
-  private int[][] board;
+  private ConnectFour main;
+  private Integer[][] board;
   private final int circleRadius = 20;
   private final int circleBound = 5;
   private final int xBound = 75;
@@ -29,7 +21,7 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
   private int mouseColumn;
   private int clickColumn;
 
-  public BoardPanel(ConnectFourModel main, int[][] board) {
+  public BoardPanel(ConnectFour main, Integer[][] board) {
     this.main = main;
     this.board = board;
     this.setPreferredSize(new Dimension(500, 400));
@@ -50,9 +42,6 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
     this.addMouseMotionListener(this);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void mouseMoved(MouseEvent e) {
     int x = e.getX() - xBound;
@@ -65,9 +54,6 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
     repaint();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void mouseDragged(MouseEvent e) {};
 
@@ -94,22 +80,18 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     int state = main.getState();
     int player = main.getPlayer();
-    if (state == ConnectFourModel.READY) {
+    if (state == ConnectFour.READY) {
       for (int i = 0; i < board.length; i++) {
         for (int j = 0; j < board[0].length; j++) {
           drawCircle(g, (j * 2 + 1) * (circleBound + circleRadius),
               (i * 2 + 1) * (circleBound + circleRadius), circleRadius, 0);
         }
       }
-    } else if (state == ConnectFourModel.START) {
+    } else if (state == ConnectFour.START) {
       for (int i = 0; i < board.length; i++) {
         for (int j = 0; j < board[0].length; j++) {
           int color = board[i][j];
@@ -127,7 +109,7 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
           }
         }
       }
-    } else if (state == ConnectFourModel.RESULT) {
+    } else if (state == ConnectFour.RESULT) {
       for (int i = 0; i < board.length; i++) {
         for (int j = 0; j < board[0].length; j++) {
           int color = board[i][j];
@@ -138,11 +120,8 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
     }
   }
 
-  /**
-   * Update the board.
-   */
-  public void update() {
-    this.board = main.getBoard().getBoard();
+  public void update(Integer[][] board) {
+    this.board = board;
     repaint();
   }
 }
