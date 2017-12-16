@@ -9,6 +9,14 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
 import Core.ConnectFourModel;
 
+/**
+ * The board panel for the connect four GUI. It shows the game board, in which the player 1 has red
+ * color while the player 2 has yellow color. Human player can choose one column to insert his disc,
+ * the expected insert place will be marked as his color.
+ * 
+ * @author Guang Yang
+ * @version 1.0
+ */
 public class BoardPanel extends JPanel implements MouseMotionListener {
   private ConnectFourModel main;
   private int[][] board;
@@ -42,6 +50,9 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
     this.addMouseMotionListener(this);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void mouseMoved(MouseEvent e) {
     int x = e.getX() - xBound;
@@ -54,6 +65,9 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
     repaint();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void mouseDragged(MouseEvent e) {};
 
@@ -80,6 +94,10 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     int state = main.getState();
@@ -120,6 +138,9 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
     }
   }
 
+  /**
+   * Update the board.
+   */
   public void update() {
     this.board = main.getBoard().getBoard();
     repaint();

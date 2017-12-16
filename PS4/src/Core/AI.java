@@ -1,8 +1,8 @@
 package Core;
 
 /**
- * An AI designed for the Connect Four game. It will give the next 
- * move based on the current situation.
+ * An AI designed for the Connect Four game. It will give the next move based on the current
+ * situation.
  * 
  * @author Guang Yang
  * @version 1.0
@@ -12,7 +12,7 @@ public class AI {
   private static int threeConnect = 25;
 
   private static boolean validate(int[][] board, int i, int j, int player) {
-    if (i < 0 || j < 0 || i >= board.length || j >= board[0].length) {
+    if (i >= board.length || j < 0 || j >= board[0].length) {
       return false;
     }
     if (board[i][j] == player) {
@@ -73,7 +73,7 @@ public class AI {
     return points;
   }
 
-  /** 
+  /**
    * Return the next move the ai predicts according to current board.
    * 
    * @param board current board

@@ -105,7 +105,7 @@ public class ConnectFourModel {
   /**
    * Set the game mode. TWIN for 2-players playing at the same machine. COMP for playing with an AI.
    * 
-   * @param mode the game mode
+   * @param selectedMode the game mode
    */
   public void modeSet(int selectedMode) {
     if (this.gameState != ConnectFourModel.READY) {
@@ -126,6 +126,7 @@ public class ConnectFourModel {
     board = new Board();
     ui.update();
     gameState = ConnectFourModel.READY;
+    winState = -1;
   }
 
   /**
@@ -135,7 +136,7 @@ public class ConnectFourModel {
   public int getState() {
     return gameState;
   }
-  
+
   /**
    * @return current turn count.
    * 
@@ -159,7 +160,7 @@ public class ConnectFourModel {
   public int getWinState() {
     return winState;
   }
-  
+
   /**
    * @return current game board.
    * 
