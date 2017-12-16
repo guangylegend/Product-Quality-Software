@@ -7,15 +7,15 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import Core.Board;
-import Core.ConnectFour;
+import Core.ConnectFourModel;
 
 public class GUI extends JFrame {
-  private ConnectFour main;
+  private ConnectFourModel main;
   private Board board;
   private BoardPanel boardPanel;
   private ButtonPanel buttonPanel;
 
-  public GUI(ConnectFour main, Board board) {
+  public GUI(ConnectFourModel main, Board board) {
     this.main = main;
     this.board = board;
     boardPanel = new BoardPanel(main, board.getBoard());

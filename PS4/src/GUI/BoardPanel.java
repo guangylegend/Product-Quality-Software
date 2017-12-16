@@ -7,11 +7,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
-import Core.ConnectFour;
+import Core.ConnectFourModel;
 
 public class BoardPanel extends JPanel implements MouseMotionListener {
-  private ConnectFour main;
-  private Integer[][] board;
+  private ConnectFourModel main;
+  private int[][] board;
   private final int circleRadius = 20;
   private final int circleBound = 5;
   private final int xBound = 75;
@@ -21,7 +21,7 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
   private int mouseColumn;
   private int clickColumn;
 
-  public BoardPanel(ConnectFour main, Integer[][] board) {
+  public BoardPanel(ConnectFourModel main, int[][] board) {
     this.main = main;
     this.board = board;
     this.setPreferredSize(new Dimension(500, 400));
@@ -84,14 +84,14 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
     super.paintComponent(g);
     int state = main.getState();
     int player = main.getPlayer();
-    if (state == ConnectFour.READY) {
+    if (state == ConnectFourModel.READY) {
       for (int i = 0; i < board.length; i++) {
         for (int j = 0; j < board[0].length; j++) {
           drawCircle(g, (j * 2 + 1) * (circleBound + circleRadius),
               (i * 2 + 1) * (circleBound + circleRadius), circleRadius, 0);
         }
       }
-    } else if (state == ConnectFour.START) {
+    } else if (state == ConnectFourModel.START) {
       for (int i = 0; i < board.length; i++) {
         for (int j = 0; j < board[0].length; j++) {
           int color = board[i][j];
@@ -109,7 +109,7 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
           }
         }
       }
-    } else if (state == ConnectFour.RESULT) {
+    } else if (state == ConnectFourModel.RESULT) {
       for (int i = 0; i < board.length; i++) {
         for (int j = 0; j < board[0].length; j++) {
           int color = board[i][j];
@@ -120,7 +120,7 @@ public class BoardPanel extends JPanel implements MouseMotionListener {
     }
   }
 
-  public void update(Integer[][] board) {
+  public void update(int[][] board) {
     this.board = board;
     repaint();
   }

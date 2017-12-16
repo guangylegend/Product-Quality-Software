@@ -10,18 +10,18 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import Core.ConnectFour;
+import Core.ConnectFourModel;
 
 public class ButtonPanel extends JPanel implements ActionListener {
-  private ConnectFour main;
+  private ConnectFourModel main;
   private JButton bStart ;
   private JLabel turnInfo;
   private JLabel playerInfo;
   private JLabel winInfo;
   private int mode;
 
-  public ButtonPanel(ConnectFour main) {
-    this.mode = ConnectFour.TWIN;
+  public ButtonPanel(ConnectFourModel main) {
+    this.mode = ConnectFourModel.TWIN;
     this.main = main;
     this.setPreferredSize(new Dimension(200, 400));
     setBackground(Color.GRAY);
@@ -62,15 +62,15 @@ public class ButtonPanel extends JPanel implements ActionListener {
               JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
       if (option == JOptionPane.YES_OPTION) {
         reset();
-        mode = ConnectFour.TWIN;
+        mode = ConnectFourModel.TWIN;
         main.reset();
-        main.modeSet(ConnectFour.TWIN); 
+        main.modeSet(ConnectFourModel.TWIN); 
         bStart.setText("Restart");
       } else if (option == JOptionPane.NO_OPTION) {
         reset();
-        mode = ConnectFour.COMP;
+        mode = ConnectFourModel.COMP;
         main.reset();
-        main.modeSet(ConnectFour.COMP);
+        main.modeSet(ConnectFourModel.COMP);
         bStart.setText("Restart");
       }
     }
@@ -87,7 +87,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
   }
   
   public void updatePlayer(int i){
-    if(mode == ConnectFour.TWIN){
+    if(mode == ConnectFourModel.TWIN){
       if(i == 1){
         playerInfo.setForeground(Color.RED);
         playerInfo.setText("Player 1's Turn");
@@ -97,7 +97,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
         playerInfo.setText("Player 2's Turn");
       }
     }
-    if(mode == ConnectFour.COMP){
+    if(mode == ConnectFourModel.COMP){
       if(i == 1){
         playerInfo.setForeground(Color.RED);
         playerInfo.setText("Your Turn");
@@ -113,7 +113,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
     if (result == 0) {
       winInfo.setText("Draw!");
     } else {
-      if(mode == ConnectFour.TWIN){
+      if(mode == ConnectFourModel.TWIN){
         winInfo.setText("Player " + result + " wins!");
       }
       else{
