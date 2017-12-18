@@ -1,7 +1,7 @@
 package edu.nyu.pqs.canvas.core;
 
 /**
- * The main class to initiate and start the connect four game.
+ * The main class to initiate and start the canvas application.
  * 
  * @author Guang Yang
  * @version 1.0

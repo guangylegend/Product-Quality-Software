@@ -11,6 +11,15 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import edu.nyu.pqs.canvas.core.CanvasModel;
 
+/**
+ * This is the toolbar class for canvas GUI, which allows user to choose the color and shape of the
+ * next paint contents. It also supports reverting and clearing the contents. And user can use the
+ * "new" button to create new canvas window.
+ * 
+ * @author Guang Yang
+ * @version 1.0
+ */
+
 public class ToolPanel extends JPanel implements ActionListener {
   private final CanvasModel model;
   private final Canvas canvas;
@@ -117,6 +126,10 @@ public class ToolPanel extends JPanel implements ActionListener {
     add(options, BorderLayout.SOUTH);
   }
 
+  /**
+   * {@inheritDoc}
+   * 
+   */
   @Override
   public void actionPerformed(ActionEvent event) {
     switch (event.getActionCommand()) {

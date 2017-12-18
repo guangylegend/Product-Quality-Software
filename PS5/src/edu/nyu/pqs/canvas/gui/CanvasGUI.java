@@ -5,6 +5,14 @@ import java.awt.Container;
 import javax.swing.JFrame;
 import edu.nyu.pqs.canvas.core.CanvasModel;
 
+/**
+ * This is the GUI class which wraps the canvas and toolbar to form a whole canvas window. It
+ * implements the interface canvaslistener to recieve the events.
+ * 
+ * @author Guang Yang
+ * @version 1.0
+ */
+
 public class CanvasGUI extends JFrame implements CanvasListener {
   private int id;
   private final CanvasModel model;
@@ -31,11 +39,19 @@ public class CanvasGUI extends JFrame implements CanvasListener {
     pack();
   }
 
+  /**
+   * {@inheritDoc}
+   * 
+   */
   @Override
   public void eventRepaint() {
     canvas.updateCanvas();
   }
 
+  /**
+   * {@inheritDoc}
+   * 
+   */
   @Override
   public int getId() {
     return id;

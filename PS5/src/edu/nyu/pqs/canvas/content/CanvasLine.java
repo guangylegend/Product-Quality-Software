@@ -1,5 +1,14 @@
 package edu.nyu.pqs.canvas.content;
 
+/**
+ * This is the implementation of the line content for the canvas. It extends the abstract content
+ * class which stores the meta data for the content, and has two more attributes which are two
+ * coordinates of the second point.
+ * 
+ * @author Guang Yang
+ * @version 1.0
+ */
+
 public class CanvasLine extends CanvasContent {
   private final int bottomX;
   private final int bottomY;
@@ -10,10 +19,18 @@ public class CanvasLine extends CanvasContent {
     this.bottomY = bottomY;
   }
 
+  /**
+   * @return The second point of the line.
+   * 
+   */
   public int[] getBottom() {
     return new int[] {bottomX, bottomY};
   }
 
+  /**
+   * @return The length of the oval.
+   * 
+   */
   @Override
   public boolean equals(Object o) {
     if (!super.equals(o)) {
@@ -29,6 +46,10 @@ public class CanvasLine extends CanvasContent {
     return true;
   }
 
+  /**
+   * @return The length of the oval.
+   * 
+   */
   @Override
   public int hashCode() {
     int result = super.hashCode();
@@ -37,6 +58,10 @@ public class CanvasLine extends CanvasContent {
     return result;
   }
 
+  /**
+   * @return The length of the oval.
+   * 
+   */
   @Override
   public String toString() {
     return super.toString() + "bottomX = " + bottomX + "\n" + "bottomY = " + bottomY + "\n";

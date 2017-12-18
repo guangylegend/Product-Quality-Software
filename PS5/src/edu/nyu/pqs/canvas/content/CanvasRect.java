@@ -1,5 +1,13 @@
 package edu.nyu.pqs.canvas.content;
 
+/**
+ * This is the implementation of the rectangle content for the canvas. It extends the abstract content class which stores
+ * the meta data for the content, and has two more attributes which are length and width.
+ * 
+ * @author Guang Yang
+ * @version 1.0
+ */
+
 public class CanvasRect extends CanvasContent {
   private final int length;
   private final int width;
@@ -10,14 +18,26 @@ public class CanvasRect extends CanvasContent {
     this.length = length;
   }
 
+  /**
+   * @return The length of the rectangle.
+   * 
+   */
   public int getLength() {
     return length;
   }
 
+  /**
+   * @return The width of the rectangle.
+   * 
+   */
   public int getWidth() {
     return width;
   }
 
+  /**
+   * {@inheritDoc}
+   * 
+   */
   @Override
   public boolean equals(Object o) {
     if (!super.equals(o)) {
@@ -33,6 +53,10 @@ public class CanvasRect extends CanvasContent {
     return true;
   }
 
+  /**
+   * {@inheritDoc}
+   * 
+   */
   @Override
   public int hashCode() {
     int result = super.hashCode();
@@ -41,6 +65,10 @@ public class CanvasRect extends CanvasContent {
     return result;
   }
 
+  /**
+   * {@inheritDoc}
+   * 
+   */
   @Override
   public String toString() {
     return super.toString() + "length = " + length + "\n" + "width = " + width + "\n";

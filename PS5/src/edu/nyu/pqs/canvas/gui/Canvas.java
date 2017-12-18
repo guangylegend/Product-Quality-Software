@@ -10,6 +10,14 @@ import javax.swing.JPanel;
 import edu.nyu.pqs.canvas.content.*;
 import edu.nyu.pqs.canvas.core.CanvasModel;
 
+/**
+ * This is the main canvas class to show the canvas contents. It supports mouse dragging operation
+ * to create new content including line, rectangle and oval. The shape and color can be selected.
+ * 
+ * @author Guang Yang
+ * @version 1.0
+ */
+
 public class Canvas extends JPanel {
   private final CanvasModel model;
   private List<CanvasContent> contentList;
@@ -146,6 +154,12 @@ public class Canvas extends JPanel {
     }
   }
 
+  /**
+   * This method is used to set the color for the next content.
+   * 
+   * @param color the color to be set.
+   * 
+   */
   public void setColor(String color) {
     switch (color) {
       case "Red":
@@ -165,6 +179,12 @@ public class Canvas extends JPanel {
     }
   }
 
+  /**
+   * This method is used to set the shape for the next content.
+   * 
+   * @param shape the shape to be set.
+   * 
+   */
   public void setShape(String shape) {
     switch (shape) {
       case "Oval":
@@ -181,6 +201,10 @@ public class Canvas extends JPanel {
     }
   }
 
+  /**
+   * This method is used to update and redraw the canvas contents.
+   * 
+   */
   public void updateCanvas() {
     contentList = model.getContent();
     repaint();
